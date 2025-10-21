@@ -1,6 +1,8 @@
 import {
+  IsEmpty,
   IsNotEmpty,
   IsNumber,
+  IsOptional,
   IsString,
   Length,
   MaxLength,
@@ -19,6 +21,7 @@ export class CreateProductDto {
   price: number;
 
   @IsString()
+  @IsOptional()
   @MaxLength(4096)
   description?: string;
 
@@ -29,4 +32,7 @@ export class CreateProductDto {
   @IsNotEmpty()
   @IsString()
   image: string;
+
+  @IsEmpty()
+  rating: { rate: number };
 }

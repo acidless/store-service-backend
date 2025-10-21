@@ -1,6 +1,6 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
+import * as path from 'node:path';
 import { Low } from 'lowdb';
-import { JSONFile } from 'lowdb/node';
 
 export type Product = {
   id: number;
@@ -9,6 +9,9 @@ export type Product = {
   description?: string;
   category: string;
   image: string;
+  rating: {
+    rate: number;
+  };
 };
 
 type Data = {
@@ -20,7 +23,11 @@ export class ProductsService implements OnModuleInit {
   private db: Low<Data>;
 
   async onModuleInit() {
-    const adapter = new JSONFile<Data>('db.json');
+    const { Low } = await import('lowdb');
+    const { JSONFile } = await import('lowdb/node');
+
+    const file = path.join(process.cwd(), 'db.json');
+    const adapter = new JSONFile<Data>(file);
     this.db = new Low<Data>(adapter, { products: [] });
     await this.db.read();
   }
@@ -36,6 +43,9 @@ export class ProductsService implements OnModuleInit {
   async add(product: Omit<Product, 'id'>): Promise<Product> {
     const newProduct = {
       ...product,
+      rating: {
+        rate: Math.round(Math.random() * 5 * 10) / 10,
+      },
       price: Math.round(product.price * 100) / 100,
       id: this.getNextId(),
     };
