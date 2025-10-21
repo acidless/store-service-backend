@@ -40,7 +40,7 @@ npm install
 
 ### 3. Running the Server
 ```bash
-npm run dev
+npm run start:dev
 ```
 
 ## 📝 License
