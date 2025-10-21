@@ -40,7 +40,7 @@ export class ProductsService implements OnModuleInit {
     return this.db.data.products.find((product) => product.id === id);
   }
 
-  async add(product: Omit<Product, 'id'>): Promise<Product> {
+  async add(product: Omit<Product, 'id' | 'rating'>): Promise<Product> {
     const newProduct = {
       ...product,
       rating: {
