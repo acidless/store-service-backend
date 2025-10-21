@@ -1,4 +1,4 @@
- 🧩 Store Service Backend - Nest.js + TypeScript + LowDB
+ # 🧩 Store Service Backend - Nest.js + TypeScript + LowDB
 
 This repository contains the **backend service** for the **Store Service** application.  
 It is built with **Node.js**, **Nest.js**, and **TypeScript**, and uses **LowDB** for simple local JSON-based data storage.
