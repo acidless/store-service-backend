@@ -20,6 +20,11 @@ export class ProductsController {
     return this.productsService.getAll();
   }
 
+  @Get('/categories')
+  public getCategories() {
+    return ["Electronics", "Jewelery", "Men's Clothing", "Women's Clothing"];
+  }
+
   @Get(':id')
   public get(@Param('id') params: { id: string }) {
     return this.productsService.getById(parseInt(params.id));
