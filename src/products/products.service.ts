@@ -33,14 +33,24 @@ export class ProductsService implements OnModuleInit {
     return this.db.data.products.find((product) => product.id === id);
   }
 
-  async add(product: Product) {
-    this.db.data.products.push(product);
+  async add(product: Omit<Product, 'id'>): Promise<Product> {
+    const newProduct = {
+      ...product,
+      price: Math.round(product.price * 100) / 100,
+      id: this.getNextId(),
+    };
+    this.db.data.products.push(newProduct);
+
     await this.db.write();
+    return newProduct;
   }
 
   async update(id: number, data: Partial<Product>) {
     const product = this.db.data.products.find((p) => p.id === id);
-    if (product) Object.assign(product, data);
+    if (product) {
+      Object.assign(product, data);
+    }
+
     await this.db.write();
     return product;
   }
@@ -48,5 +58,14 @@ export class ProductsService implements OnModuleInit {
   async delete(id: number) {
     this.db.data.products = this.db.data.products.filter((p) => p.id !== id);
     await this.db.write();
+  }
+
+  private getNextId(): number {
+    const products = this.db.data.products;
+    if (!products.length) {
+      return 1;
+    }
+
+    return Math.max(...products.map((p) => p.id)) + 1;
   }
 }
